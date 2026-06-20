@@ -1,6 +1,5 @@
 project:
   type: website
-
 website:
   title: "sua nep olong"
   navbar:
@@ -10,7 +9,8 @@ website:
       - href: about.qmd
         text: about me!
       - href: vis.qmd
-      - href: final-project.qmd
+        text: visualizations
+      - href: final_project.qmd
         text: final project
 format:
   html:
