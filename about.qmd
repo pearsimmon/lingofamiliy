@@ -1,0 +1,27 @@
+---
+title: "About me!"
+---
+![](mountain.JPG)
+
+Hi! My name's Rosalyn and I'm a first year graduate student at OHSU-PSU studying Biostatistics. In my free time I love spending time with my cats :) watch c-dramas, travel, read, and take walks. 
+
+## Education
+Oregon Health and Science Universty - Portland State University, 2025-Current 
+
+Masters of Science in Biostatistics
+
+Washington State University, 2020-2024
+
+Bachelors of Science in Biology and Bachelor of Science in Environmental Science 
+
+## Study abroad experience
+Ewha Woman's University Spring 2024
+
+Shanghai Jiao Tong University Summer 2026
+
+## Work Experience
+Clinical Research Assistant - Knight Cancer Early Detection Clinical Trials (name will be changing soon) [previously Student Worker]
+
+Lab Assistant - PeaceHealth
+
+Communications Director - Student Government at Washington State University 

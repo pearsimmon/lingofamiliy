@@ -1,0 +1,72 @@
+---
+title: "bmi 525 final vis"
+format: html
+editor: visual
+---
+
+```{r}
+#packages needed :)
+pacman::p_load(here, dplyr, tidyverse, broom,
+               gtsummary, readr, sf, sp, tmap, osmdata, ggmap, readxl,
+               classInt, cowplot, maps, prettymapr, ggspatial, basemaps,
+               mapview, ghibli, extrafonts, wesanderson)
+```
+
+```{r}
+# to load my data + maps
+# languages <- read_csv(here("data/languages_dataset.csv"))
+world_boundaries <- st_read(here("data/World_Countries_Generalized.shp"))   
+languages <- read_csv(here("data/22_Languages_of_the_World.csv"))
+world_boundaries = world_boundaries %>%
+  filter(COUNTRY != "Antarctica")
+
+world_map = world_boundaries %>% ggplot() + geom_sf() 
+```
+
+```{r}
+#filtering the average lat and long points to plot the circles
+major_families <- c("Indo-European", "Dravidian", "Austronesian",
+                    "Tai-Kadai","Afro-Asiatic", "Turkic", "Sino-Tibetan",
+                    "Atlantic-Congo", "Austroasiatic", "Arawakan", "Mande",
+                    "Otomanguean", "Pama-Nyungan", 
+                    "Nuclear Trans New Guinea",
+                    "Quechuan", "Tupian")
+
+languages_filtered <- languages %>%
+  filter(!is.na(family)) %>%
+  mutate(family = ifelse(family %in% major_families, family, "Other"))
+
+family_coords <- languages %>%
+  filter(family != "Other") %>%
+  group_by(family) %>%
+  summarise(
+    lat = mean(latitude, na.rm = TRUE),
+    lon = mean(longitude, na.rm = TRUE)
+  )
+
+family_counts <- languages_filtered %>%
+  count(family) %>%
+  left_join(family_coords, by = "family")
+```
+
+```{r}
+#creating my own color palette as I wanted ghibli but it's limited to 9 colors and I have 16 families
+my_colors <- c(ghibli_palettes$YesterdayMedium[3:7], ghibli_palettes$PonyoMedium[2:6], ghibli_palettes$MarnieMedium1[3:7], wes_palette("Royal2"), wes_palette("GrandBudapest2"))
+
+#creating the plot
+world_map + 
+  geom_point(data = family_counts, 
+             aes(x = lon, y = lat, size = n, color = family),
+             alpha = 0.7) +
+  coord_sf(crs = st_crs(4326)) +
+  labs(x = "Longitudinal coordinates",
+       y = "Latitudinal coordinates",
+       title = "Current modern languages and it's historical language family cluster") + 
+  scale_color_manual(values = my_colors) +
+  theme(legend.position = "bottom") + guides(size = "none") +
+  theme(text = element_text(family = "Georgia"))
+
+ggsave(here("images/family_bubble_map.png"), width = 10, height = 6, dpi = 300)
+saveRDS(languages, here("data/languages.rds"))
+
+```

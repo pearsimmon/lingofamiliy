@@ -1,0 +1,51 @@
+"0","data <- data %>% replace(is.na(.), 0) %>% "
+"0","  mutate(mutate(across(where(is.numeric), round, 5)))"
+"0","glimpse(data)"
+"1","Rows: 213"
+"1",""
+"1","
+"
+"1","Columns: 15"
+"1",""
+"1","
+"
+"1","$ fixed_broadband_internet_subscribers_per_100_people [3m[38;5;246m<chr>[39m[23m ""Afghanistan""[38;5;246m, [39m""Al…
+$ x1998                                               [3m[38;5;246m<dbl>[39m[23m 0.00000[38;5;246m, [39m0.00000[38;5;246m, [39m…
+$ x1999                                               [3m[38;5;246m<dbl>[39m[23m 0.00000[38;5;246m, [39m0.00000[38;5;246m, [39m…
+$ x2000                                               [3m[38;5;246m<dbl>[39m[23m 0.00000[38;5;246m, [39m0.00000[38;5;246m, [39m…
+$ x2001                                               [3m[38;5;246m<dbl>[39m[23m 0.00000[38;5;246m, [39m0.00000[38;5;246m, [39m…
+$ x2002                                               [3m[38;5;246m<dbl>[39m[23m 0.00000[38;5;246m, [39m0.00000[38;5;246m, [39m…
+$ x2003                                               [3m[38;5;246m<dbl>[39m[23m 0.00000[38;5;246m, [39m0.00000[38;5;246m, [39m…
+$ x2004                                               [3m[38;5;246m<dbl>[39m[23m 0.00069[38;5;246m, [39m0.00000[38;5;246m, [39m…
+$ x2005                                               [3m[38;5;246m<dbl>[39m[23m 0.00074[38;5;246m, [39m0.00866[38;5;246m, [39m…
+$ x2006                                               [3m[38;5;246m<dbl>[39m[23m 0.00163[38;5;246m, [39m0.00000[38;5;246m, [39m…
+$ x2007                                               [3m[38;5;246m<dbl>[39m[23m 0.00158[38;5;246m, [39m0.31549[38;5;246m, [39m…
+$ x2008                                               [3m[38;5;246m<dbl>[39m[23m 0.00154[38;5;246m, [39m2.01169[38;5;246m, [39m…
+$ x2009                                               [3m[38;5;246m<dbl>[39m[23m 0.00299[38;5;246m, [39m2.88155[38;5;246m, [39m…
+$ x2010                                               [3m[38;5;246m<dbl>[39m[23m 0.00436[38;5;246m, [39m3.29232[38;5;246m, [39m…
+$ x2011                                               [3m[38;5;246m<dbl>[39m[23m 0[38;5;246m, [39m0[38;5;246m, [39m0[38;5;246m, [39m0[38;5;246m, [39m0[38;5;246m, [39m0[38;5;246m, [39m…"
+"1",""
+"1","
+"
+"0","gapminder_second <- gapminder %>% "
+"0","  group_by(continent) %>% "
+"0","  summarise(min_lifeexp = min(lifeExp),"
+"0","            max_lifeexp = max(lifeExp))"
+"0",""
+"0","ggplot(gapminder_second, "
+"0","       aes(y = continent)) +"
+"0","  geom_segment(aes(x = min_lifeexp, "
+"0","                   xend = max_lifeexp, "
+"0","                   yend = continent),"
+"0","               color = ""#b8c9bf"", linewidth = 0.5) +"
+"0","  geom_point(aes(x = min_lifeexp, color = ""Minimum""), size = 1, shape = 8) +"
+"0","  geom_point(aes(x = max_lifeexp, color = ""Maximum""), size = 1, shape = 8) +"
+"0","  scale_color_manual("
+"0","    values = c(""Minimum"" = ""#6b9e8f"", ""Maximum"" = ""#c4956a"")"
+"0","  ) +"
+"0","  labs("
+"0","    title = ""Life expectancy average by continents"","
+"0","    x = ""Average life expectancy in years"","
+"0","    y = ""Continents"","
+"0","    color = ""Life expectancy"""
+"0","  )"
