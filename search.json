@@ -1,0 +1,51 @@
+[
+  {
+    "objectID": "vis.html",
+    "href": "vis.html",
+    "title": "visualization 1 :)",
+    "section": "",
+    "text": "The visualization above is from Lab 4 where we explored graph building! I did the average life expectancy across each country across the different years, and then I did the average life expectancy in each country. The graph itself is the average minimum versus average maximum years in terms of life expectancy grouped by continents."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Rosalyn Minh",
+    "section": "",
+    "text": "Nep means sticky rice in vietnamese (the cow looking one), sua means milk (orange cat!), and olong as in oolong tea (gray tuxedo) !\n nep in basketo\n sua with her two other siblings che (pudding) and chuoi (banana)\n my mischievious cat that has ran out of the house"
+  },
+  {
+    "objectID": "final_vis.html",
+    "href": "final_vis.html",
+    "title": "bmi 525 final vis",
+    "section": "",
+    "text": "#packages needed :)\npacman::p_load(here, dplyr, tidyverse, broom,\n               gtsummary, readr, sf, sp, tmap, osmdata, ggmap, readxl,\n               classInt, cowplot, maps, prettymapr, ggspatial, basemaps,\n               mapview, ghibli, extrafonts, wesanderson)\n\nWarning: package 'extrafonts' is not available for this version of R\n\nA version of this package for your version of R might be available elsewhere,\nsee the ideas at\nhttps://cran.r-project.org/doc/manuals/r-patched/R-admin.html#Installing-packages\n\n\nWarning in p_install(package, character.only = TRUE, ...):\n\n\nWarning in library(package, lib.loc = lib.loc, character.only = TRUE,\nlogical.return = TRUE, : there is no package called 'extrafonts'\n\n\nWarning in pacman::p_load(here, dplyr, tidyverse, broom, gtsummary, readr, : Failed to install/load:\nextrafonts\n\n\n\n# to load my data + maps\n# languages &lt;- read_csv(here(\"data/languages_dataset.csv\"))\nworld_boundaries &lt;- st_read(here(\"data/World_Countries_Generalized.shp\"))   \n\nReading layer `World_Countries_Generalized' from data source \n  `/Users/ros/Desktop/ohsu/BMI 525/quarto shiny app/data/World_Countries_Generalized.shp' \n  using driver `ESRI Shapefile'\nSimple feature collection with 251 features and 4 fields\nGeometry type: MULTIPOLYGON\nDimension:     XY\nBounding box:  xmin: -20037510 ymin: -30240970 xmax: 20037510 ymax: 18418390\nProjected CRS: WGS 84 / Pseudo-Mercator\n\nlanguages &lt;- read_csv(here(\"data/22_Languages_of_the_World.csv\"))\n\nRows: 8612 Columns: 12\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (8): id, name, macroarea, iso639p3code, countries, family_id, family, st...\ndbl (3): latitude, longitude, status_code\nlgl (1): is_isolate\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\nworld_boundaries = world_boundaries %&gt;%\n  filter(COUNTRY != \"Antarctica\")\n\nworld_map = world_boundaries %&gt;% ggplot() + geom_sf() \n\n\n#filtering the average lat and long points to plot the circles\nmajor_families &lt;- c(\"Indo-European\", \"Dravidian\", \"Austronesian\",\n                    \"Tai-Kadai\",\"Afro-Asiatic\", \"Turkic\", \"Sino-Tibetan\",\n                    \"Atlantic-Congo\", \"Austroasiatic\", \"Arawakan\", \"Mande\",\n                    \"Otomanguean\", \"Pama-Nyungan\", \n                    \"Nuclear Trans New Guinea\",\n                    \"Quechuan\", \"Tupian\")\n\nlanguages_filtered &lt;- languages %&gt;%\n  filter(!is.na(family)) %&gt;%\n  mutate(family = ifelse(family %in% major_families, family, \"Other\"))\n\nfamily_coords &lt;- languages %&gt;%\n  filter(family != \"Other\") %&gt;%\n  group_by(family) %&gt;%\n  summarise(\n    lat = mean(latitude, na.rm = TRUE),\n    lon = mean(longitude, na.rm = TRUE)\n  )\n\nfamily_counts &lt;- languages_filtered %&gt;%\n  count(family) %&gt;%\n  left_join(family_coords, by = \"family\")\n\n\n#creating my own color palette as I wanted ghibli but it's limited to 9 colors and I have 16 families\nmy_colors &lt;- c(ghibli_palettes$YesterdayMedium[3:7], ghibli_palettes$PonyoMedium[2:6], ghibli_palettes$MarnieMedium1[3:7], wes_palette(\"Royal2\"), wes_palette(\"GrandBudapest2\"))\n\n#creating the plot\nworld_map + \n  geom_point(data = family_counts, \n             aes(x = lon, y = lat, size = n, color = family),\n             alpha = 0.7) +\n  coord_sf(crs = st_crs(4326)) +\n  labs(x = \"Longitudinal coordinates\",\n       y = \"Latitudinal coordinates\",\n       title = \"Current modern languages and it's historical language family cluster\") + \n  scale_color_manual(values = my_colors) +\n  theme(legend.position = \"bottom\") + guides(size = \"none\") +\n  theme(text = element_text(family = \"Georgia\"))\n\nWarning: Removed 1 row containing missing values or values outside the scale range\n(`geom_point()`).\n\n\n\n\n\n\n\n\nggsave(here(\"images/family_bubble_map.png\"), width = 10, height = 6, dpi = 300)\n\nWarning: Removed 1 row containing missing values or values outside the scale range\n(`geom_point()`).\n\nsaveRDS(languages, here(\"data/languages.rds\"))"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About me!",
+    "section": "",
+    "text": "Hi! My name’s Rosalyn and I’m a first year graduate student at OHSU-PSU studying Biostatistics. In my free time I love spending time with my cats :) watch c-dramas, travel, read, and take walks."
+  },
+  {
+    "objectID": "about.html#education",
+    "href": "about.html#education",
+    "title": "About me!",
+    "section": "Education",
+    "text": "Education\nOregon Health and Science Universty - Portland State University, 2025-Current\nMasters of Science in Biostatistics\nWashington State University, 2020-2024\nBachelors of Science in Biology and Bachelor of Science in Environmental Science"
+  },
+  {
+    "objectID": "about.html#study-abroad-experience",
+    "href": "about.html#study-abroad-experience",
+    "title": "About me!",
+    "section": "Study abroad experience",
+    "text": "Study abroad experience\nEwha Woman’s University Spring 2024\nShanghai Jiao Tong University Summer 2026"
+  },
+  {
+    "objectID": "about.html#work-experience",
+    "href": "about.html#work-experience",
+    "title": "About me!",
+    "section": "Work Experience",
+    "text": "Work Experience\nClinical Research Assistant - Knight Cancer Early Detection Clinical Trials (name will be changing soon) [previously Student Worker]\nLab Assistant - PeaceHealth\nCommunications Director - Student Government at Washington State University"
+  }
+]
